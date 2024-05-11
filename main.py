@@ -5,8 +5,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.endpoints import router
 from app.settings import get_settings
 
-# TODO validate aws access keys before server startup
-
 app = FastAPI()
 app.include_router(router)
 app.add_middleware(
