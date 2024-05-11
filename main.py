@@ -5,6 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.endpoints import router
 from app.settings import get_settings
 
+# TODO check access keys are valid before the serer starts
+
 app = FastAPI()
 app.include_router(router)
 app.add_middleware(
