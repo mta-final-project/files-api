@@ -3,6 +3,7 @@ from fastapi import File, HTTPException, status
 from app.settings import get_settings
 from botocore.exceptions import ClientError
 from app.models import FileMetadata
+from app.models import FileModel
 
 
 class S3Service:
@@ -54,3 +55,7 @@ class S3Service:
         self.s3_client.upload_fileobj(
             file.file, self.settings.aws_bucket_name, file_name
         )
+
+    async def s3_list_files(self) -> list[FileModel]:
+        response = self.s3_client.list_objects_v2(Bucket=self.settings.aws_bucket_name)
+        return response["Contents"]
