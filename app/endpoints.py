@@ -34,7 +34,7 @@ async def metadata(file_name: str) -> FileMetadata:
         )
     return await service.s3_get_metadata(file_name)
 
+
 @router.get("/files", status_code=status.HTTP_200_OK)
 async def files() -> list[FileModel]:
     return await service.s3_list_files()
-

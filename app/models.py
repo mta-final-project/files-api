@@ -1,13 +1,15 @@
-import datetime
 from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel
 from typing import Self, Any
 
+
 class FileModel(BaseModel):
     Key: str
     LastModified: Optional[datetime]
     Size: Optional[int]
+
+
 class FileMetadata(BaseModel):
     file_name: str
     date: str
