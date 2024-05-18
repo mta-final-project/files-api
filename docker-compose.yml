@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  app:
+    image: ac-files-api:latest
+    container_name: files-api
+    restart: unless-stopped
+    ports:
+      - '8003:8003'
+    env_file:
+      - .env
