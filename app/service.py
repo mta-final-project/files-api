@@ -3,7 +3,6 @@ from fastapi import File, HTTPException, status
 from app.settings import get_settings
 from botocore.exceptions import ClientError
 from app.models import FileMetadata
-from app.models import FileModel
 
 
 class S3Service:
@@ -56,6 +55,16 @@ class S3Service:
             file.file, self.settings.aws_bucket_name, file_name
         )
 
-    async def s3_list_files(self) -> list[FileModel]:
-        response = self.s3_client.list_objects_v2(Bucket=self.settings.aws_bucket_name)
-        return response["Contents"]
+    async def s3_list_folders(self, path: str) -> list[str]:
+        response = self.s3_client.list_objects_v2(
+            Bucket=self.settings.aws_bucket_name, Delimiter="/", Prefix=path
+        )
+        files = [file["Prefix"] for file in response.get("CommonPrefixes", [])]
+        return files
+
+    async def s3_list_objects(self, path: str) -> list[str]:
+        response = self.s3_client.list_objects_v2(
+            Bucket=self.settings.aws_bucket_name, Prefix=path
+        )
+        files = [file["Key"] for file in response.get("Contents", [])]
+        return files

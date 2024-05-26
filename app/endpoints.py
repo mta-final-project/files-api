@@ -2,7 +2,6 @@ from fastapi import APIRouter, UploadFile, status, HTTPException
 from fastapi.responses import RedirectResponse
 from app import service
 from app.models import FileMetadata
-from app.models import FileModel
 
 router = APIRouter()
 service = service.S3Service()
@@ -35,6 +34,11 @@ async def metadata(file_name: str) -> FileMetadata:
     return await service.s3_get_metadata(file_name)
 
 
-@router.get("/files", status_code=status.HTTP_200_OK)
-async def files() -> list[FileModel]:
-    return await service.s3_list_files()
+@router.get("/list-folders", status_code=status.HTTP_200_OK)
+async def list_folders(path: str = "") -> list[str]:
+    return await service.s3_list_folders(path)
+
+
+@router.get("/list-objects", status_code=status.HTTP_200_OK)
+async def list_objects(path: str = "") -> list[str]:
+    return await service.s3_list_objects(path)
