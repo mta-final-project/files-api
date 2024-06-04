@@ -1,5 +1,23 @@
+from datetime import datetime
 from pydantic import BaseModel
 from typing import Self, Any
+import os
+
+
+class FileInfo(BaseModel):
+    key: str
+    name: str
+    last_modified: datetime
+    size: int
+
+    @classmethod
+    def from_contents(cls, content: dict[str, Any]) -> "Self":
+        return cls(
+            key=content["Key"],
+            name=os.path.basename(content["Key"]),
+            last_modified=content["LastModified"],
+            size=content["Size"],
+        )
 
 
 class FileMetadata(BaseModel):
