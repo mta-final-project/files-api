@@ -3,18 +3,14 @@ from fastapi import File, HTTPException, status
 from app.settings import get_settings
 from botocore.exceptions import ClientError
 from app.models import FileMetadata, FileInfo
+from botocore import UNSIGNED
+from botocore.client import Config
 
 
 class S3Service:
     def __init__(self):
         self.settings = get_settings()
-        self.s3_client = boto3.client(
-            "s3",
-            region_name=self.settings.aws_region,
-            aws_access_key_id=self.settings.aws_access_key_id,
-            aws_secret_access_key=self.settings.aws_secret_access_key,
-            aws_session_token=self.settings.aws_session_token,
-        )
+        self.s3_client = boto3.client('s3', config=Config(signature_version=UNSIGNED))
 
     def is_file_exists(self, file_name: str) -> bool:
         try:

@@ -9,13 +9,7 @@ class ApiSettings(BaseModel):
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_nested_delimiter="__", env_file=".env")
-
     api: ApiSettings = ApiSettings()
-    aws_access_key_id: str
-    aws_secret_access_key: str
-    aws_session_token: str
-    aws_region: str
     aws_bucket_name: str = "academease"
     presigned_url_expiration: int = 3600
 
