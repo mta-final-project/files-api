@@ -10,7 +10,7 @@ class ApiSettings(BaseModel):
 
 class Settings(BaseSettings):
     api: ApiSettings = ApiSettings()
-    aws_bucket_name: str = "academease"
+    aws_bucket_name: str = "academease-materials"
     presigned_url_expiration: int = 3600
 
 

@@ -52,11 +52,13 @@ class S3Service:
         )
 
     async def s3_list_folders(self, path: str) -> list[str]:
+        if path:
+            path = path + "/"
         response = self.s3_client.list_objects_v2(
             Bucket=self.settings.aws_bucket_name, Delimiter="/", Prefix=path
         )
-        files = [file["Prefix"][:-1] for file in response.get("CommonPrefixes", [])]
-        return files
+        subfolders = [file["Prefix"][:-1] for file in response.get("CommonPrefixes", [])]
+        return subfolders
 
     async def s3_list_objects(self, path: str) -> list[FileInfo]:
         response = self.s3_client.list_objects_v2(
